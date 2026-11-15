@@ -1,2 +1,2 @@
 # BareRenderer
-S,all software cpu renderer
+Small software cpu renderer
