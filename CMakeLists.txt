@@ -15,6 +15,7 @@ FetchContent_MakeAvailable(SDL3)
 set(SOURCES
     ${CMAKE_SOURCE_DIR}/src/main.cpp
     ${CMAKE_SOURCE_DIR}/src/tgaimage.cpp
+    ${CMAKE_SOURCE_DIR}/src/TGARenderTarget.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

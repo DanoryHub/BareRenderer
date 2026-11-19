@@ -5,7 +5,7 @@
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"
 
-#include "tgaimage.h"
+#include "TGARenderTarget.hpp"
 
 const TGAColor white   = {255, 255, 255, 255}; // attention, BGRA order
 const TGAColor green   = {  0, 255,   0, 255};
@@ -19,11 +19,6 @@ const int windowHeight = 64;
 
 static SDL_Window *mainWindow = nullptr;
 static SDL_Renderer *mainRenderer = nullptr;
-
-constexpr uint32_t makeABGR(uint8_t r, uint8_t g, uint8_t b, uint8_t a, TGAColor &outTgaColor) {
-    outTgaColor = TGAColor{b, g, r, a};
-    return (uint32_t(a) << 24) | (uint32_t(b) << 16) | (uint32_t(g) << 8) | r;
-}
 
 constexpr uint32_t makeABGR(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255) {
     return (uint32_t(a) << 24) | (uint32_t(b) << 16) | (uint32_t(g) << 8) | r;
@@ -54,7 +49,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 }
 
 SDL_AppResult SDL_AppIterate(void *appstate){
-    TGAImage framebuffer(windowWidth, windowHeight, TGAImage::RGBA);
+    BR::TGARenderTarget tgaTarget(windowWidth, windowHeight, TGAImage::RGBA);
     SDL_Texture *framebufferTexture = SDL_CreateTexture(mainRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, windowWidth, windowHeight);
 
     int *pixels = NULL;
@@ -67,8 +62,9 @@ SDL_AppResult SDL_AppIterate(void *appstate){
             {
                 int idx = windowWidth * y + x;
                 TGAColor color;
-                pixels[idx] = makeABGR(rand(), rand(), rand(), rand(), color);
-                framebuffer.set(x, y, color);
+                BR::ColorRGBA colorRGBA(rand(), rand(), rand(), rand());
+                pixels[idx] = makeABGR(colorRGBA.r, colorRGBA.g, colorRGBA.b, colorRGBA.a);
+                tgaTarget.setPixel(x, y, colorRGBA);
             } else{
                 std::cerr << "Pixels pointer is NULL" << std::endl;
             }
@@ -78,7 +74,8 @@ SDL_AppResult SDL_AppIterate(void *appstate){
     SDL_UnlockTexture(framebufferTexture);
 
     SDL_RenderTexture(mainRenderer, framebufferTexture, NULL, NULL);
-    framebuffer.write_tga_file("framebuffer.tga");
+    tgaTarget.setFilePath("framebuffer.tga");
+    tgaTarget.renderTarget();
     SDL_RenderPresent(mainRenderer);
 
     return SDL_APP_CONTINUE;
