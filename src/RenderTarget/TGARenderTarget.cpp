@@ -2,7 +2,7 @@
 // Created by ivan_miatselski on 2026-11-19.
 //
 
-#include "TGARenderTarget.hpp"
+#include "RenderTarget/TGARenderTarget.hpp"
 
 namespace BR{
 

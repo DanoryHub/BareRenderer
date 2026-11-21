@@ -5,7 +5,7 @@
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"
 
-#include "TGARenderTarget.hpp"
+#include "RenderTarget/TGARenderTarget.hpp"
 
 const TGAColor white   = {255, 255, 255, 255}; // attention, BGRA order
 const TGAColor green   = {  0, 255,   0, 255};

@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "IRenderTarget.hpp"
-#include "tgaimage.h"
+#include "tgaimage/tgaimage.h"
 
 namespace BR {
 

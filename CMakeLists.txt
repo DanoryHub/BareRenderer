@@ -12,14 +12,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL3)
 
-set(SOURCES
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_SOURCE_DIR}/src/tgaimage.cpp
-    ${CMAKE_SOURCE_DIR}/src/TGARenderTarget.cpp
-)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/RenderTarget)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/tgaimage)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(
         ${PROJECT_NAME} PRIVATE
         SDL3::SDL3-static
+        RenderTarget
+        tga
 )
