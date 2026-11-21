@@ -18,7 +18,5 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/src/tgaimage)
 add_executable(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(
         ${PROJECT_NAME} PRIVATE
-        SDL3::SDL3-static
         RenderTarget
-        tga
 )
